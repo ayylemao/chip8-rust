@@ -1,10 +1,14 @@
 #![allow(unused)]
-mod cpu;
-use cpu::CPU;
+mod renderer; // Import the renderer module
+
+use sfml::graphics::{RenderWindow, RenderTarget};
+use sfml::window::{Event, Style};
+use crate::renderer::Renderer;
+
+// Assuming CPU is defined in another file
+mod cpu; // Import the CPU module
+use crate::cpu::CPU;
 
 fn main() {
-    let mut cpu: CPU = cpu::CPU::default();
-    cpu.reset();
-    cpu.load_sprites();
-    println!("{:X?}", cpu.memory);
+
 }
