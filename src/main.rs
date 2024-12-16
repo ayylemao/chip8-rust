@@ -29,7 +29,7 @@ fn main() {
     cpu.reset();
     cpu.load_sprites();
 
-    let filename = "1-chip8-logo.ch8";
+    let filename = "6-keypad.ch8";
     let buffer = BufReader::new(File::open(filename).unwrap()); 
     let mut inc: usize = 0;
     for byte in buffer.bytes() {
@@ -64,10 +64,13 @@ fn main() {
             renderer.cpu.execute();
         }
 
+        renderer.check_key_press();
+
         if renderer.cpu.redraw {
             renderer.draw_buffer();
             renderer.cpu.redraw = false;
         }
+
         let image: Image = renderer.image.clone();
         texture.load_from_image(&image, IntRect::new(0, 0, 100, 100));
         let mut sprite: Sprite = Sprite::with_texture(&texture);

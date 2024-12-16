@@ -46,6 +46,11 @@ impl<'a> Renderer<'a> {
                     unsafe {
                         self.image.set_pixel(x, y, color);
                     }
+                } else {
+                    let color = Color::BLACK;
+                    unsafe {
+                        self.image.set_pixel(x, y, color);
+                    }
                 }
             }
         }
