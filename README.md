@@ -11,3 +11,6 @@ Next start python webserver
 `python -m http.server`
 
 open browser on `localhost:8000` and open pkg/ directory.
+
+
+Test roms are sourced from https://github.com/Timendus/chip8-test-suite
