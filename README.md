@@ -2,6 +2,8 @@
 Install wasm-pack with:
 
 `cargo install wasm-pack`
+(You might need to add wasm-pack to path to call it ```export PATH="$HOME/.cargo/bin:$PATH"```)
+
 Then build project with:
 
 `wasm-pack build --target web`
