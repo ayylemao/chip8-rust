@@ -1,4 +1,6 @@
-use rand::rngs::ThreadRng;
+#![allow(unused)]
+use rand::rngs::SmallRng;
+use rand::SeedableRng;
 use rand::Rng;
 pub type Byte = u8;
 pub type Word = u16;
@@ -16,8 +18,8 @@ pub struct CPU
     pub st: Byte,
     pub ticks: u32,
     pub redraw: bool,
-    pub keyboard: [bool; 16],
-    pub rng: ThreadRng
+    pub keyboard: [u8; 16],
+    pub rng: SmallRng
 
 }
 
@@ -97,15 +99,32 @@ impl CPU {
             st: 0,
             ticks: 0,
             redraw: false,
-            keyboard: [false; 16],
-            rng: rand::thread_rng()
+            keyboard: [0; 16],
+            rng: SmallRng::seed_from_u64(42)
         }
+    }
+
+    pub fn init(&mut self) {
+        self.reset();
+        self.load_sprites();
+        self.load_program();
     }
 
     pub fn reset(&mut self) {
         self.pc = 0x200;
         self.sp = 0x0;
         self.i = 0x0;
+    }
+
+    pub fn load_program(&mut self) {
+        let program = include_bytes!("roms/5-quirks.ch8");
+        let start_address = 0x200;
+        let end_address = start_address + program.len();
+        if end_address <= self.memory.len() {
+            self.memory[start_address..end_address].copy_from_slice(program);
+        } else {
+            panic!("Program is too large to fit into memory!")
+        }
     }
 
     pub fn fetch(&mut self) -> Word {
@@ -135,16 +154,14 @@ impl CPU {
         }
     }
 
+    pub fn get_display(&self) -> [[bool; CPU::DISP_X]; CPU::DISP_Y] {
+        return self.display;
+    }
+
     pub fn execute(&mut self) {
         let ins: Word = self.fetch();
         let vx: Word = (ins >> 8) & 0x000F;
         let vy: Word = (ins >> 4) & 0x000F;
-        let xcoord: Byte;
-        let ycoord: Byte;
-        let carry: Byte;
-        let n: Word;
-        let pixel_byte: Byte;
-        let pixel: bool;
         self.ticks += 1;
 
         if self.ticks % 9 == 0 {
@@ -323,7 +340,7 @@ impl CPU {
                     CPU::SKP_VX => {
                         // Skip next instruction if key with the value of Vx is pressed.
                         if self.v[vx as usize] <= 0xF {
-                            if self.keyboard[self.v[vx as usize] as usize] {
+                            if self.keyboard[self.v[vx as usize] as usize] == 1 {
                                 self.pc += 2; // Skip next instruction
                             }
                         }
@@ -331,7 +348,7 @@ impl CPU {
                     CPU::SKNP_VX => {
                         // Skip next instruction if key with the value of Vx is not pressed.
                         if self.v[vx as usize] <= 0xF {
-                            if !self.keyboard[self.v[vx as usize] as usize] {
+                            if self.keyboard[self.v[vx as usize] as usize] == 0 {
                                 self.pc += 2; // Skip next instruction
                             }
                         }
@@ -346,7 +363,7 @@ impl CPU {
                     }
                     CPU::LD_VX_K => {
                         for i in 0..16 {
-                            if self.keyboard[i] {
+                            if self.keyboard[i] == 1 {
                                 self.v[vx as usize] = i as Byte;
                                 break;
                             }
