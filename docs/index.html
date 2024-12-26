@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIP-8 Emulator</title>
+    <style>
+        /* Reset margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body styling: Full page centered with gradient background */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        /* Wrapper for content */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Header styling */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f5f5f5;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Canvas styling */
+        canvas {
+            display: block;
+            background-color: #000;
+            border: 5px solid #2d2d2d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        /* Instructions or Footer */
+        .instructions {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: #d1d1d1;
+        }
+
+        /* Update Rate Display */
+        .update-rate {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #00ffea;
+            font-weight: bold;
+        }
+
+        /* Link styling */
+        a {
+            color: #00c6ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Emulator Title -->
+        <h1>CHIP-8 Emulator</h1>
+
+        <!-- Canvas for Rendering -->
+        <canvas id="chip8-canvas" width="640" height="320"></canvas>
+
+        <!-- Update Rate Display -->
+        <div class="update-rate" id="update-rate">Update Rate: Calculating...</div>
+
+        <!-- Instructions or Footer -->
+        <div class="instructions">
+            <p>Use your <strong>Keypad (Numpad 0-9, A-F)</strong> to interact with the emulator.</p>
+            <p>Press <strong>Refresh</strong> if the program does not respond.</p>
+            <p>Learn more about CHIP-8 <a href="https://en.wikipedia.org/wiki/CHIP-8" target="_blank">here</a>.</p>
+        </div>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script type="module" src="index.js"></script>
+</body>
+</html>

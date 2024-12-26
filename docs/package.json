@@ -1,0 +1,15 @@
+{
+  "name": "chip8_rust",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "chip8_rust_bg.wasm",
+    "chip8_rust.js",
+    "chip8_rust.d.ts"
+  ],
+  "main": "chip8_rust.js",
+  "types": "chip8_rust.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
